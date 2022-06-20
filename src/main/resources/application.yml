@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8888
