@@ -659,7 +659,9 @@ public class LamyeonService implements MenuFetcher {
 }
 ```
 
-만일 2개의 인자를 받아야 한다면 대부분의 functional interface에서 제공하는 compose, andThen을 이용해 연쇄적으로 받아서 처리할 수 있게 조합을 할 수 있다.
+만일 2개의 인자를 받아야 한다면 Function의 경우에는 BiFunction을 고려할 수 있다.
+
+만일 그 이상의 인자를 받아야 한다면 대부분의 functional interface에서 제공하는 compose, andThen을 이용해 연쇄적으로 받아서 처리할 수 있게 조합을 할 수 있다.    
 
 여기서 Function이나 Supplier를 직접 쓰지 굳이 RecipeFetcher를 만든 이유가 궁금할 수도 있는 분이 있으실텐데 그것은 이름을 주기 위해서이다.
 
@@ -766,6 +768,7 @@ public class NoodleService {
 
 }
 ```
+Topping뿐 아니라 만일 사이드메뉴도 설정하겠다고 하면 코드를 수정해야 하는 부분이 확 줄어들어 유지보수 및 확장에 용의할 수 있다.   
 
 사실 이런 이상적인 상황을 많이 만날지는 미지수이다.
 
