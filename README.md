@@ -508,7 +508,7 @@ public class NaengmyeonService implements MenuFetcher {
 
 }
 ```
-스프링에에서 스프링 컨테이너인 ApplicationContext를 이용해 빈을 가져올 수 있기 때문에 NoodleType에 정의된 type명으로 빈을 찾을 수 있도록 서비스 네임을 지정한다.
+스프링에에서 스프링 컨테이너인 ApplicationContext를 이용해 빈을 가져올 수 있기 때문에 NoodleType에 정의된 type명으로 빈을 찾을 수 있도록 서비스 빈 아이디를 지정한다.
 
 최종 NoodleService는 다음과 같이 변경될 것이다.
 
