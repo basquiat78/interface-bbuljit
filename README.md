@@ -12,7 +12,7 @@
 
 NoodleRestController.java
 
-```
+```java
 /**
  * noodle Rest Controller
  */
@@ -40,7 +40,6 @@ public class NoodleRestController {
     }
 
 }
-
 ```
 
 다음과 같은 초 간단 api가 있다고 해보자.
@@ -52,7 +51,8 @@ public class NoodleRestController {
 뭔가 그럴싸하게 Noodle이라는 객체에 정보를 담아서 반환하는 초간단 서비스이다.
 
 Noodle.java
-```
+
+```java
 /**
  * 면 정보를 담는 객체
  */
@@ -68,7 +68,8 @@ public class NoodleDto {
 ```
 
 응답 객체 ResponseResult도 만들어 보자.
-```
+
+```java
 /**
  * Rest API response 정보를 담은 객체
  */
@@ -92,9 +93,9 @@ public class ResponseResult<T> {
 }
 ```
 
-
 NoodleService.java
-```
+
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -124,7 +125,7 @@ public class NoodleService {
 
 근데 이 집이 메뉴를 개발하기 시작하고 인기가 많아지면서 몇개의 API가 더 추가되는 상황을 상상해 보자.
 
-```
+```java
 /**
  * noodle Rest Controller
  */
@@ -175,7 +176,8 @@ public class NoodleRestController {
 ```
 
 그렇다면 서비스쪽도 이렇게 바뀌겠지?
-```
+
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -225,7 +227,7 @@ public class NoodleService {
 
 ~~어 그래 화내지 마~~
 
-```
+```java
 /**
  * noodle Rest Controller
  */
@@ -254,6 +256,7 @@ public class NoodleRestController {
 
 }
 ```
+
 수많은 엔드포인트가 사라지고 굉장히 깔금하게 변했다.
 
 하지만 컨트롤러쪽에 if문이 좀 지져분해 보인다.
@@ -262,7 +265,7 @@ public class NoodleRestController {
 
 일단 심플하게 면종류를 enum으로 정의를 하고 만일 없는 메뉴가 넘어오게 된다면 없다는 정보를 보내주게 한번 만들어 보자.
 
-```
+```java
 /**
  * 면종류 enum type
  */
@@ -305,7 +308,7 @@ public enum NoodleType {
 
 일단 무지성으로 만들어보면 다음과 같이 한번 만들어 볼 수 있다.
 
-```
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -367,13 +370,15 @@ public class NoodleService {
 
 }
 ```
+
 if문을 사용해도 되고 enum을 받으니 switch로 분기를 태웠지만 뭔가 고개가 갸우뚱거려진다.
 
 하지만 일단 작동은 하니까 그냥 넘어가자!
 
 
 컨트롤러 부분은 다음과 같이 바꾼다.
-```
+
+```java
 /**
  * noodle Rest Controller
  */
@@ -395,6 +400,7 @@ public class NoodleRestController {
 
 }
 ```
+
 하지만 뭔가 컨트롤러 쪽은 깔끔하게 변경이 되었는데 서비스쪽이 참 맘에 걸린다.
 
 메뉴가 추가되면 enum을 정의하는 것은 그렇다치고 길어지는 switch문이 걸린다.
@@ -409,7 +415,8 @@ switch문이 늘어나는 것도 어쩔 수 없다고 그렇다고 치자. 하�
 그리고 각각의 서비스 내에서 해당 레시피에 대한 것만 담당하게 한다면 참 좋을텐데라는 생각까지 하게 된다.
 
 예를 들면
-```
+
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -443,7 +450,6 @@ public class NoodleService {
         return responseResult(NoodleDto.builder().noodleName(noodleType.getNoodleName()).build());
     }
 }
-
 ```
 
 스위치 문이 길어지더라도 추가되는 서비스에 대한 레시피를 담당하는 서비스만 잘 정의하면 무난하게 갈 수 있다는 것이다.
@@ -464,7 +470,7 @@ public class NoodleService {
 
 현재의 구조로 볼때는 인자값이 없고 T객체를 반환하는 구조이기 때문에 functional interface중 이에 해당하는 Supplier를 적용해서 간단하게 만든다.
 
-```
+```java
 /**
  * Supplier
  * @param <T>
@@ -472,13 +478,13 @@ public class NoodleService {
 public interface RecipeFetcher<T> {
 
     T get();
-    
+
 }
 ```
 
 그리고 MenuFetcher라는 녀석을 하나 정의해보자.
 
-```
+```java
 /**
  * menu fetcher
  */
@@ -488,11 +494,12 @@ public interface MenuFetcher {
 
 }
 ```
+
 반환타입이 RecipeFetcher라는 것에 주목하자.
 
 이제부터 이것을 구현한 메뉴별 레시피를 정의한 서비스를 만들 생각이다.
 
-```
+```java
 /**
  * 냉면 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -508,11 +515,12 @@ public class NaengmyeonService implements MenuFetcher {
 
 }
 ```
+
 스프링에에서 스프링 컨테이너인 ApplicationContext를 이용해 빈을 가져올 수 있기 때문에 NoodleType에 정의된 type명으로 빈을 찾을 수 있도록 서비스 빈 아이디를 지정한다.
 
 최종 NoodleService는 다음과 같이 변경될 것이다.
 
-```
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -551,7 +559,8 @@ public class NoodleService {
 Topping이라는 Vo를 통해서 레시피를 만들때 마지막으로 올라올 토핑 정보를 받아서 응답 객체에 이것을 표현해 보자.
 
 일단 번거롭지만 토핑 유무를 따지는 enum을 만들고
-```
+
+```java
 /**
  * 추가하거나 안한거나
  */
@@ -579,7 +588,6 @@ public class Topping {
     private AddOrNot spicySource;
 
 }
-
 ```
 
 물론 AddOrNot enum class는 Topping클래스 내부에 작성할 수 있지만 혹시 또 다른 곳에서도 사용할 수 있다는 가정하에 분리를 한다.
@@ -594,7 +602,7 @@ Supplier는 인자값이 없고 어떤 객체 T를 리턴받지만 이제는 하
 
 이 때 우리가 선택할 수 있는 것은 Function<T, R>이다.
 
-```
+```java
 /**
  * Function<T, R>
  * @param <T>
@@ -615,15 +623,13 @@ public interface MenuFetcher {
     RecipeFetcher<Topping, ResponseResult> cooking();
 
 }
-
 ```
 
 MenuFetcher 역시 바껴야 한다. T를 인자로 받고 R로 반환하기 때문에 각각의 서비스는 다음과 같이 바꾸자.
 
 그전에 NoodleDto에서는 이 토핑을 받게 만들자.
 
-
-```
+```java
 /**
  * 면 정보를 담는 객체
  */
@@ -661,7 +667,7 @@ public class LamyeonService implements MenuFetcher {
 
 만일 2개의 인자를 받아야 한다면 Function의 경우에는 BiFunction을 고려할 수 있다.
 
-만일 그 이상의 인자를 받아야 한다면 대부분의 functional interface에서 제공하는 compose, andThen을 이용해 연쇄적으로 받아서 처리할 수 있게 조합을 할 수 있다.    
+만일 그 이상의 인자를 받아야 한다면 대부분의 functional interface에서 제공하는 compose, andThen을 이용해 연쇄적으로 받아서 처리할 수 있게 조합을 할 수 있다.
 
 여기서 Function이나 Supplier를 직접 쓰지 굳이 RecipeFetcher를 만든 이유가 궁금할 수도 있는 분이 있으실텐데 그것은 이름을 주기 위해서이다.
 
@@ -671,12 +677,12 @@ public class LamyeonService implements MenuFetcher {
 
 ApplicationContextAware를 구현한 ApplicationContextProvider를 통해서 스프링 컨테이너를 제공하는 제공자를 만든다.
 
-```
+```java
 /**
  * ApplicationContextAware 을 이용해서 ApplicationContext 를 제공하는 제공자를 만든다.
- * 
+ *
  * 인스턴스가 조작되는 것을 private static final 로 정의된 inner class 통해 감싸서 제공한다.
- * 
+ *
  */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
@@ -741,7 +747,7 @@ public class BeansUtils {
 
 그리고 최종적으로
 
-```
+```java
 /**
  * 레시피를 통해서 면을 만들고 반환을 한다.
  *
@@ -768,8 +774,9 @@ public class NoodleService {
 
 }
 ```
-Topping뿐 아니라 만일 사이드메뉴도 설정하겠다고 하면 코드를 수정해야 하는 부분이 확 줄어들어 유지보수 및 확장에 용의할 수 있다.   
+
+Topping뿐 아니라 만일 사이드메뉴도 설정하겠다고 하면 코드를 수정해야 하는 부분이 확 줄어들어 유지보수 및 확장에 용의할 수 있다.
 
 사실 이런 이상적인 상황을 많이 만날지는 미지수이다.
 
-하지만 이런 상황이 발생한다면 한번쯤은 시도해 볼 만한 뻘짓이다.    
+하지만 이런 상황이 발생한다면 한번쯤은 시도해 볼 만한 뻘짓이다.

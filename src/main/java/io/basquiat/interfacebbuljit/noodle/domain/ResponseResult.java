@@ -1,13 +1,11 @@
 package io.basquiat.interfacebbuljit.noodle.domain;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest API response 정보를 담은 객체
  */
-@Data
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class ResponseResult<T> {
