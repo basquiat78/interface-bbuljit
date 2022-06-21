@@ -32,7 +32,7 @@ public class NoodleRestController {
 
     /**
      * 라면을 만들어서 가져온다.
-     * @return ResponseResult
+     * @return String
      */
     @PostMapping("/lamyeon")
     public String lamyeon() {
