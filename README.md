@@ -223,7 +223,7 @@ public class NoodleService {
 
 아니 이럴거면 그냥 path variable을 이용하지?
 
-~~어 그래 화내지~~
+~~어 그래 화내지 마~~
 
 ```
 /**
