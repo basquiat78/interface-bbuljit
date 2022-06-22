@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Rest API response 정보를 담은 객체
+ * Rest API response 정보를 담은 객체 
  */
 @EqualsAndHashCode
 @RequiredArgsConstructor
